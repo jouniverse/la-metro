@@ -1,0 +1,295 @@
+@import "tailwindcss";
+
+/* ── Design Tokens ─────────────────────────────── */
+:root {
+  --color-surface: #080808;
+  --color-surface-dim: #131313;
+  --color-surface-container: #1f2020;
+  --color-surface-container-low: #1b1c1c;
+  --color-surface-container-high: #2a2a2a;
+  --color-surface-container-highest: #353535;
+  --color-surface-bright: #393939;
+
+  --color-primary: #ff9d00;
+  --color-primary-glow: #ffc485;
+  --color-primary-dim: #ffb869;
+
+  --color-secondary: #b1d446;
+  --color-secondary-dim: #7d9c05;
+  --color-terminal-green: #a4c639;
+
+  --color-tertiary: #00c1ff;
+  --color-tertiary-dim: #91d8ff;
+
+  --color-on-surface: #e4e2e1;
+  --color-on-surface-variant: #dac2ad;
+  --color-outline: #a28d79;
+  --color-outline-variant: #544433;
+
+  --color-error: #ffb4ab;
+  --color-error-container: #93000a;
+
+  --font-main: "Space Grotesk", system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: var(--font-main);
+  background: var(--color-surface);
+  color: var(--color-on-surface);
+}
+
+/* ── Custom Tactical Cursor ────────────────────── */
+/* Reticle crosshair (default) + pointer variants. Inline SVG → no extra request. */
+html,
+body,
+.leaflet-container,
+.leaflet-grab,
+.leaflet-dragging .leaflet-grab,
+.leaflet-dragging .leaflet-interactive,
+.leaflet-dragging {
+  cursor:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><circle cx='11' cy='11' r='6' fill='none' stroke='%23ff9d00' stroke-width='1' opacity='0.8'/><line x1='11' y1='0' x2='11' y2='6' stroke='%23ff9d00' stroke-width='1'/><line x1='11' y1='16' x2='11' y2='22' stroke='%23ff9d00' stroke-width='1'/><line x1='0' y1='11' x2='6' y2='11' stroke='%23ff9d00' stroke-width='1'/><line x1='16' y1='11' x2='22' y2='11' stroke='%23ff9d00' stroke-width='1'/><circle cx='11' cy='11' r='1' fill='%23ff9d00'/></svg>")
+      11 11,
+    crosshair;
+}
+
+button,
+a,
+[role="button"],
+.leaflet-marker-icon,
+.leaflet-interactive {
+  cursor:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 22 22'><circle cx='11' cy='11' r='9' fill='none' stroke='%23b1d446' stroke-width='1.2'/><line x1='11' y1='0' x2='11' y2='7' stroke='%23b1d446' stroke-width='1.2'/><line x1='11' y1='15' x2='11' y2='22' stroke='%23b1d446' stroke-width='1.2'/><line x1='0' y1='11' x2='7' y2='11' stroke='%23b1d446' stroke-width='1.2'/><line x1='15' y1='11' x2='22' y2='11' stroke='%23b1d446' stroke-width='1.2'/><circle cx='11' cy='11' r='2' fill='%23b1d446'/></svg>")
+      11 11,
+    pointer;
+}
+
+input,
+textarea {
+  cursor: text;
+}
+
+/* Hide custom cursor on touch devices where it's noisy */
+@media (hover: none) {
+  html,
+  body,
+  button,
+  a,
+  [role="button"],
+  .leaflet-container,
+  .leaflet-grab,
+  .leaflet-dragging,
+  .leaflet-marker-icon,
+  .leaflet-interactive {
+    cursor: auto;
+  }
+}
+
+/* ── Scanline Overlay ──────────────────────────── */
+.scanline-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.12) 0px,
+    rgba(0, 0, 0, 0.12) 1px,
+    transparent 1px,
+    transparent 2px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ── Tactical Grid ─────────────────────────────── */
+.tactical-grid {
+  background-size: 40px 40px;
+  background-image:
+    linear-gradient(to right, rgba(162, 141, 121, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(162, 141, 121, 0.04) 1px, transparent 1px);
+}
+
+/* ── Glitch Text ───────────────────────────────── */
+.glitch-text {
+  text-shadow:
+    2px 0 0 rgba(255, 157, 0, 0.3),
+    -2px 0 0 rgba(177, 212, 70, 0.3);
+}
+
+/* ── Corner Brackets ───────────────────────────── */
+.corner-brackets {
+  position: relative;
+}
+.corner-brackets::before,
+.corner-brackets::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-color: var(--color-outline);
+  pointer-events: none;
+}
+.corner-brackets::before {
+  top: 0;
+  left: 0;
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+.corner-brackets::after {
+  bottom: 0;
+  right: 0;
+  border-bottom: 1px solid;
+  border-right: 1px solid;
+}
+
+/* ── Scrollbar ─────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-surface-dim);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-outline-variant);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-outline);
+}
+
+/* ── Leaflet Overrides ─────────────────────────── */
+.leaflet-container {
+  background: #080808 !important;
+  font-family: var(--font-main) !important;
+}
+.leaflet-control-zoom a {
+  background: var(--color-surface-container) !important;
+  color: var(--color-primary) !important;
+  border-color: var(--color-outline-variant) !important;
+}
+.leaflet-control-zoom a:hover {
+  background: var(--color-surface-container-high) !important;
+}
+.leaflet-control-attribution {
+  background: rgba(8, 8, 8, 0.7) !important;
+  color: var(--color-outline) !important;
+  font-size: 9px !important;
+}
+.leaflet-control-attribution a {
+  color: var(--color-outline) !important;
+}
+.leaflet-popup-content-wrapper {
+  background: var(--color-surface-container) !important;
+  color: var(--color-on-surface) !important;
+  border: 1px solid var(--color-outline-variant) !important;
+  border-radius: 0 !important;
+  font-family: var(--font-main) !important;
+}
+.leaflet-popup-tip {
+  background: var(--color-surface-container) !important;
+}
+
+/* ── Map Satellite Shader ──────────────────────── */
+.satellite-shader .leaflet-tile-pane {
+  filter: brightness(0.55) contrast(1.2) saturate(0.3) sepia(0.15);
+}
+
+/* ── Status Pulse ──────────────────────────────── */
+@keyframes pulse-glow {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ── Vehicle Marker ────────────────────────────── */
+.vehicle-marker {
+  transition: transform 0.3s ease-out;
+}
+
+@keyframes selected-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.85;
+  }
+}
+.selected-vehicle-pulse {
+  animation: selected-pulse 1.6s ease-in-out infinite;
+  transform-origin: center;
+}
+
+/* ── Segmented Progress Bar ────────────────────── */
+.segmented-bar {
+  display: flex;
+  gap: 2px;
+}
+.segmented-bar .segment {
+  flex: 1;
+  height: 4px;
+  background: var(--color-surface-container-high);
+}
+.segmented-bar .segment.active {
+  background: var(--color-primary);
+}
+
+/* ── Boot screen animation ─────────────────────── */
+@keyframes boot-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+.boot-fade-out {
+  animation: boot-fade-out 0.8s ease-out forwards;
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 0.3;
+  }
+  94% {
+    opacity: 1;
+  }
+  96% {
+    opacity: 0.5;
+  }
+  97% {
+    opacity: 1;
+  }
+}
+.text-flicker {
+  animation: flicker 4s infinite;
+}

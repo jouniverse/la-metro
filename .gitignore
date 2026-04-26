@@ -1,0 +1,21 @@
+# IDEs
+.cursor/
+.vscode/
+
+# Notes
+freezer/
+notes/
+
+# Extra images
+imgs/extra-imgs/
+
+# Data
+src/data/
+
+# Node
+src/node_modules/
+src/dist/
+
+# Environment variables
+src/.env
+.env
