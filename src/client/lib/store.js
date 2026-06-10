@@ -39,6 +39,7 @@ const useStore = create((set, get) => ({
   mapCenter: null,
   showAllRoutes: false,
   mapClickLocation: null, // { lat, lon } when user pins a "nearby from here" location
+  showTrafficCameras: false, // desktop only
 
   // UI state
   sidebarOpen: !LAYOUT_COMPACT_INIT, // Map-first on compact / touch layout
@@ -181,6 +182,7 @@ const useStore = create((set, get) => ({
   setMapMode: (mode) => set({ mapMode: mode }),
   setMapCenter: (center) => set({ mapCenter: center }),
   setShowAllRoutes: (value) => set({ showAllRoutes: value }),
+  setShowTrafficCameras: (value) => set({ showTrafficCameras: value }),
   setMapClickLocation: (loc) => {
     // Pinning a location should surface the nearby panel.
     if (loc) set({ mapClickLocation: loc, sidebarTab: 'nearby', sidebarOpen: true });

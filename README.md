@@ -12,6 +12,7 @@ _All the LA Metro bus and rail routes (LA Metro rail stations are also shown). L
 ![UI Main](./imgs/ui-13.png)
 ![UI Stop](./imgs/ui-12.png)
 ![UI Vehicle](./imgs/ui-8.png)
+![UI Traffic Cameras](./imgs/ui-18.png)
 
 #### Mobile views
 
@@ -29,6 +30,8 @@ Walkthrough of the app is available [here](https://youtu.be/fyqwtBetRT4).
 - **Stop detail + real-time predictions** — live arrival countdowns for each destination, pulled from Swiftly's `predictions` endpoint (refreshed every 30 s).
 - **Nearby** — finds stops within 800 m of your GPS location, _or_ of any location you click on the map.
 - **Full-network overlay** — an "All routes" toggle draws every LA Metro route as a faint skeleton; hover for the route name, click to drill in.
+- **Traffic cameras** _(desktop only)_ — a `○ CAMERAS` toggle overlays ~500 Caltrans CCTV locations across LA County. Click any marker to open a popup with a live still image, location name, nearby place, and coordinates. Camera list is fetched from the Caltrans CWWP2 feed and cached for 24 h; the image itself is always fresh (the URL stays constant but Caltrans updates the content every ~2 min).
+- **Poll countdown** _(desktop only)_ — the status bar shows `NEXT: XXs` with a shrinking bar so you can see exactly when the next vehicle poll fires.
 - **Search** — fuzzy search across routes, stops, and live vehicle IDs (`/` to focus).
 - **Selection emphasis** — the selected vehicle / stop grows, glows, and pulses; `Esc` or the header's `✕ DESELECT` button clears.
 - **Tactical design system** — dark palette (amber / cyan / lime), Space Grotesk, scanline overlay, corner brackets, segmented progress bar, custom reticle cursor. Responsive down to mobile.
@@ -160,6 +163,7 @@ All active LA Metro vehicles are shown. Arrows point in the direction of travel 
 
 - `ALL / BUS / RAIL` — filter the map by mode.
 - `◻ ALL ROUTES` — toggle the full route-network skeleton overlay. Hover a line for the route name, click to select.
+- `○ CAMERAS` _(desktop only)_ — overlay Caltrans CCTV camera locations. Click a marker for a live image popup (image refreshes on every popup open).
 - `ANIM: FULL / FOCUS / OFF` — cycle the vehicle-animation mode (see Performance notes). Your choice is persisted to `localStorage`.
 - `✕ DESELECT` — appears when anything is selected; clears route / stop / vehicle selection (or press `Esc`).
 
@@ -179,6 +183,20 @@ Clicking a stop opens the right-hand panel with live arrival countdowns per dest
 ### Map controls
 
 - Zoom in/out, locate me, and toggle **street / satellite** mode (bottom-right).
+
+### Traffic cameras _(desktop only)_
+
+Click `○ CAMERAS` in the header to overlay green camera icons across LA County (Caltrans District 7). Click any icon to open a popup containing:
+
+- A live JPEG still from the camera (refreshed on each popup open)
+- Location name and nearby place
+- GPS coordinates
+
+Data source: [CWWP2 — California Department of Transportation (Caltrans)](https://cwwp2.dot.ca.gov/) — the Commercial Wholesale Web Portal that provides real-time traveler information for all 12 Caltrans districts. The District 7 (Los Angeles County) JSON feed is at `https://cwwp2.dot.ca.gov/data/d7/cctv/cctvStatusD07.json`. The feed is cached for 24 hours; the image URL is permanent but Caltrans updates the JPEG every ~2 minutes.
+
+### Poll countdown _(desktop only)_
+
+The footer status bar shows `NEXT: 09s` with a small progress bar counting down to the next vehicle poll. Resets to 10 s after each poll arrives.
 
 ### Keyboard shortcuts
 
@@ -267,6 +285,9 @@ All endpoints are served under `/api` on the Express server (port 3001 by defaul
   - [TAP Agencies](https://www.taptogo.net/TAPAgencies)
   - [GTFS reference](https://gtfs.org/documentation/schedule/reference/)
   - [GTFS Realtime reference](https://gtfs.org/documentation/realtime/reference/)
+  - [Caltrans CWWP2 — real-time traveler information](https://cwwp2.dot.ca.gov/)
+  - [Caltrans CWWP2 District 7 CCTV feed (LA County)](https://cwwp2.dot.ca.gov/data/d7/cctv/cctvStatusD07.json)
+  - [Caltrans GIS open data](https://gisdata-caltrans.opendata.arcgis.com/)
 - **Global Mobility Data**
   - [MobilityDatabase](https://mobilitydatabase.org/)
 - **Libraries**

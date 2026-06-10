@@ -67,6 +67,8 @@ export default function Header() {
   const clearSelection = useStore(s => s.clearSelection);
   const showAllRoutes = useStore(s => s.showAllRoutes);
   const setShowAllRoutes = useStore(s => s.setShowAllRoutes);
+  const showTrafficCameras = useStore(s => s.showTrafficCameras);
+  const setShowTrafficCameras = useStore(s => s.setShowTrafficCameras);
   const animationMode = useStore(s => s.animationMode);
   const setAnimationMode = useStore(s => s.setAnimationMode);
   const stopDetailOpen = useStore(s => s.stopDetailOpen);
@@ -201,6 +203,19 @@ export default function Header() {
         title="Toggle full route network overlay"
       >
         {showAllRoutes ? '◼ ALL ROUTES' : '◻ ALL ROUTES'}
+      </button>
+
+      <button
+        type="button"
+        onClick={() => setShowTrafficCameras(!showTrafficCameras)}
+        className={`hidden items-center border px-2 py-1 text-[10px] tracking-[0.15em] uppercase transition-colors md:inline-flex ${
+          showTrafficCameras
+            ? 'border-[var(--color-secondary)] bg-[var(--color-surface-container)] text-[var(--color-secondary)]'
+            : 'border-[var(--color-outline-variant)] text-[var(--color-outline)] hover:text-[var(--color-on-surface)]'
+        }`}
+        title="Toggle Caltrans traffic camera locations"
+      >
+        {showTrafficCameras ? '◉ CAMERAS' : '○ CAMERAS'}
       </button>
 
       {animBtn}

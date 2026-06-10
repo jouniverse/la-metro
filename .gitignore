@@ -3,6 +3,11 @@
 .vscode/
 
 .DS_Store
+src/.DS_Store
+imgs/.DS_Store
+
+.venv/
+venv/
 
 # Notes
 freezer/

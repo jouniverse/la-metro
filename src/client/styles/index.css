@@ -201,6 +201,16 @@ textarea {
   background: var(--color-surface-container) !important;
 }
 
+/* Camera popup — remove wrapper padding so our HTML fills it edge-to-edge */
+.camera-popup .leaflet-popup-content-wrapper {
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+.camera-popup .leaflet-popup-content {
+  margin: 0 !important;
+  width: auto !important;
+}
+
 /* ── Map Satellite Shader ──────────────────────── */
 .satellite-shader .leaflet-tile-pane {
   filter: brightness(0.55) contrast(1.2) saturate(0.3) sepia(0.15);

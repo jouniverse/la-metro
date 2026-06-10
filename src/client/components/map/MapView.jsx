@@ -9,6 +9,7 @@ import StopMarkers from './StopMarkers.jsx';
 import AllRoutesLayer from './AllRoutesLayer.jsx';
 import SelectedStopMarker from './SelectedStopMarker.jsx';
 import MapControls from './MapControls.jsx';
+import TrafficCameraLayer from './TrafficCameraLayer.jsx';
 import 'leaflet/dist/leaflet.css';
 
 function MapModeController() {
@@ -136,6 +137,7 @@ export default function MapView() {
       <RouteLayer />
       <StopMarkers />
       <SelectedStopMarker />
+      <TrafficCameraLayer />
       <MapControls />
     </MapContainer>
   );
